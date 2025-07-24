@@ -1,58 +1,107 @@
-// This is a simple JavaScript file for a Todo List application
-let tasks = [];
+const form = document.getElementById('form-todo');
+const todoInput = document.getElementById('todo-input');
+const todoDate = document.getElementById('todo-date');
+const todoList = document.getElementById('todo-list');
+const filterInput = document.getElementById('filter-input');
+const deleteAllBtn = document.getElementById('delete-all');
+const errorMessage = document.getElementById('error-message');
 
-function addTask() {
-    // Function to add a task
-    const taskInput = document.getElementById("todo-input");
-    const dateInput = document.getElementById("date-input");
+let todos = [];
+let editIndex = null;
 
-    // Check if the inputs are empty
-    if (taskInput.value === "" || dateInput.value === "") {
-        // Alert the user to enter both task and date
-        alert("Please enter a task and a date.");
-    } else {
-        // Add the task to the tasks array
-        tasks.push({
-            title: taskInput.value,
-            date: dateInput.value,
-            completed: false,
-        });
+function renderTodos(filter = "") {
+  todoList.innerHTML = "";
 
-        renderTasks();
-    }
+  const filtered = todos.filter(todo =>
+    todo.task.toLowerCase().includes(filter.toLowerCase())
+  );
 
+  if (filtered.length === 0) {
+    todoList.innerHTML = `<p class="no-task">No tasks available</p>`;
+    return;
+  }
+
+  filtered.forEach((todo, index) => {
+    const taskEl = document.createElement('div');
+    taskEl.className = 'todo-item';
+    taskEl.innerHTML = `
+      <div class="task-info">
+        <strong>${todo.task}</strong>
+        <span class="date">📅 ${formatDate(todo.date)}</span>
+      </div>
+      <div class="actions">
+        <button class="edit-btn" data-index="${index}">✏️</button>
+        <button class="delete-btn" data-index="${index}">🗑️</button>
+      </div>
+    `;
+    todoList.appendChild(taskEl);
+  });
 }
 
-function removeAllTask() {
-    // Function to remove a task
-    tasks = [];
-
-    renderTasks();
+function formatDate(dateStr) {
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  return new Date(dateStr).toLocaleDateString('id-ID', options);
 }
 
-function toggleFilter() {
-    // Function to toggle the filter
+function showError(message) {
+  errorMessage.textContent = message;
+  errorMessage.classList.add('show');
+
+  setTimeout(() => {
+    errorMessage.classList.remove('show');
+    setTimeout(() => {
+      errorMessage.textContent = '';
+    }, 300); // tunggu transisi selesai baru kosongkan teks
+  }, 3000);
 }
 
-function completeTask(index) {
-    // Function to mark a task as completed
-    tasks[index].completed = true;
-}
 
-function renderTasks() {
-    // Function to render tasks on the page
-    const taskList = document.getElementById("todo-list");
-    taskList.innerHTML = ""; // Clear the current list
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const task = todoInput.value.trim();
+  const date = todoDate.value;
 
-    tasks.forEach((task, index) => {
-        taskList.innerHTML += `
-        <li class="todo-item flex justify-between items-center bg-white p-4 mb-2">
-                    <span>${task.title}</span>
-                    <div>
-                        <button type="button" class="px-[10px] py-[2px] bg-green-500 text-white rounded-md" onclick="completeTask(${index});">Complete</button>
-                        <button class="px-[10px] py-[2px] bg-red-500 text-white rounded-md">Delete</button>
-                    </div>
-                </li>
-        `;
-    });
-}
+  if (todos.some((todo, i) => todo.task.toLowerCase() === task.toLowerCase() && i !== editIndex)) {
+    showError("Todo with the same name already exists.");
+    return;
+  }
+
+  if (editIndex !== null) {
+    todos[editIndex] = { task, date };
+    editIndex = null;
+  } else {
+    todos.push({ task, date });
+  }
+
+  todoInput.value = '';
+  todoDate.value = '';
+  renderTodos(filterInput.value);
+});
+
+todoList.addEventListener('click', (e) => {
+  const index = e.target.dataset.index;
+
+  if (e.target.classList.contains('delete-btn')) {
+    todos.splice(index, 1);
+    renderTodos(filterInput.value);
+  }
+
+  if (e.target.classList.contains('edit-btn')) {
+    const todo = todos[index];
+    todoInput.value = todo.task;
+    todoDate.value = todo.date;
+    editIndex = index;
+    todoInput.focus();
+  }
+});
+
+filterInput.addEventListener('input', () => {
+  renderTodos(filterInput.value);
+});
+
+deleteAllBtn.addEventListener('click', () => {
+  todos = [];
+  renderTodos();
+});
+
+renderTodos();

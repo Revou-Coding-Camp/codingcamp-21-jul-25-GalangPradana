@@ -1,32 +1,209 @@
+/* Background dan font utama */
+body {
+  background: linear-gradient(135deg, #e0f7fa, #fceabb);
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+/* Main dengan efek glass */
 main {
-    width: 50%;
-    height: 100vh;
-    justify-self: center;
-    align-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
 }
 
-form {
-    background-color: aliceblue;
-    padding: 16px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+/* Judul utama */
+.judul {
+  text-align: center;
+  color: #334155;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-.action-container {
-    display: flex;
-    justify-content: space-between;
+/* Form dan tombol filter */
+form,
+.control-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  height: 5px;
 }
 
-li {
-    border-bottom: 1px solid;
+.error-message.show {
+  opacity: 1;
 }
 
+
+/* Input field */
+input[type="text"],
+input[type="date"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  transition: box-shadow 0.3s ease;
+}
+
+input:focus {
+  box-shadow: 0 0 0 2px rgba(0, 172, 193, 0.3);
+}
+
+/* Tombol default */
+button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #00acc1;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0097a7;
+}
+
+/* Tombol Delete All (tampilan beda) */
+.btn-hapusall {
+  background-color: #f87171;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+.btn-hapusall:hover {
+  background-color: #ef4444;
+}
+
+/* H2 Heading task list */
+header h2 {
+  color: #1e293b;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Todo List Container */
 #todo-list {
-    height: 200px;
-    overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10px;
+  border-radius: 8px;
+  color: #1e293b;
+}
+
+/* Setiap task item */
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Bagian teks judul + tanggal */
+.task-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-height: 4.5em;
+  overflow-y: auto;
+  margin-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.task-info::-webkit-scrollbar {
+  width: 6px;
+}
+.task-info::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.task-info strong,
+.task-info span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-info strong {
+  font-weight: bold;
+  color: #334155;
+}
+
+.task-info span {
+  font-size: 0.9rem;
+  color: #64748b;
+  min-width: 90px; /* opsional untuk jaga agar tanggal tidak turun */
+}
+
+
+/* Tombol aksi (edit, delete) */
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.actions button {
+  background-color: #06b6d4;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s;
+}
+
+.actions button:hover {
+  background-color: #0891b2;
+}
+
+/* Responsif mobile */
+@media (max-width: 600px) {
+  main {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  form,
+  .control-buttons {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  button {
+    width: 100%;
+  }
 }

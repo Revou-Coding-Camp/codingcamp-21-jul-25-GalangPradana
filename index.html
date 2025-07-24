@@ -18,12 +18,23 @@
        <form id="form-todo">
            <input type="text" id="todo-input" placeholder="Add a todo..." required>
            <input type="date" id="todo-date" required>
-           <button type="submit">+ Tambah</button>
+           <button type="submit">+</button>
          </form>
+         <p id="error-message" class="error-message"></p>
 
-         <div>
-            
-         </div>
+
+        <div class="control-buttons">
+            <input type="text" id="filter-input" placeholder="Filter tasks..." />
+            <button id="delete-all" class="btn-hapusall"type="button">Delete All</button>
+        </div>
+
+       <header>
+                <h3 class="text-1xl font-bold ">Task List</h3>
+            </header>
+
+            <div id="todo-list">
+                <p>No tasks available</p>
+            </div>
     </main>
 
     <!-- Javascript External -->
