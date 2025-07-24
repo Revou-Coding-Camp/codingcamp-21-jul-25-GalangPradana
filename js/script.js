@@ -51,7 +51,7 @@ function showError(message) {
     errorMessage.classList.remove('show');
     setTimeout(() => {
       errorMessage.textContent = '';
-    }, 300); // tunggu transisi selesai baru kosongkan teks
+    }, 300); 
   }, 3000);
 }
 
