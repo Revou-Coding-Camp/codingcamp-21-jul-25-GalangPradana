@@ -1,10 +1,10 @@
 <script>
   const form = document.querySelector("form");
-  const todoInput = document.getElementById("todo");
-  const todoDate = document.getElementById("date");
+  const todoInput = document.getElementById("todo-input");
+  const todoDate = document.getElementById("todo-date");
   const todoList = document.getElementById("todo-list");
-  const searchInput = document.getElementById("search");
-  const monthFilter = document.getElementById("monthFilter");
+  const searchInput = document.getElementById("search-input");
+  const monthFilter = document.getElementById("month-filter");
   const errorMessage = document.getElementById("error-message");
 
   let todos = [];
@@ -45,47 +45,51 @@
   function renderTodos(searchText = "", month = "") {
     todoList.innerHTML = "";
 
-    todos
-      .filter((todo) => {
-        const matchesSearch = todo.task
-          .toLowerCase()
-          .includes(searchText.toLowerCase());
+    const filtered = todos.filter((todo) => {
+      const matchesSearch = todo.task
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
 
-        const todoDateObj = new Date(todo.date);
-        const todoMonth = todoDateObj.getMonth() + 1;
+      const todoDateObj = new Date(todo.date);
+      const todoMonth = todoDateObj.getMonth() + 1;
 
-        const matchesMonth =
-          month === "" || todoMonth === parseInt(month, 10);
+      const matchesMonth = month === "" || todoMonth === parseInt(month, 10);
 
-        return matchesSearch && matchesMonth;
-      })
-      .forEach((todo, index) => {
-        const item = document.createElement("div");
-        item.className = "todo-item";
+      return matchesSearch && matchesMonth;
+    });
 
-        const info = document.createElement("div");
-        info.className = "task-info";
-        info.innerHTML = `<strong>${todo.task}</strong> <span>${todo.date}</span>`;
+    if (filtered.length === 0) {
+      todoList.innerHTML = `<p>No tasks available</p>`;
+      return;
+    }
 
-        const actions = document.createElement("div");
-        actions.className = "actions";
+    filtered.forEach((todo, index) => {
+      const item = document.createElement("div");
+      item.className = "todo-item";
 
-        const editBtn = document.createElement("button");
-        editBtn.textContent = "Edit";
-        editBtn.onclick = () => editTodo(index);
+      const info = document.createElement("div");
+      info.className = "task-info";
+      info.innerHTML = `<strong>${todo.task}</strong> <span>${todo.date}</span>`;
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Hapus";
-        deleteBtn.onclick = () => deleteTodo(index);
+      const actions = document.createElement("div");
+      actions.className = "actions";
 
-        actions.appendChild(editBtn);
-        actions.appendChild(deleteBtn);
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      editBtn.onclick = () => editTodo(index);
 
-        item.appendChild(info);
-        item.appendChild(actions);
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Hapus";
+      deleteBtn.onclick = () => deleteTodo(index);
 
-        todoList.appendChild(item);
-      });
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+
+      item.appendChild(info);
+      item.appendChild(actions);
+
+      todoList.appendChild(item);
+    });
   }
 
   function editTodo(index) {
@@ -117,22 +121,8 @@
   });
 
   // Hapus semua
-  document.getElementById("hapusSemua").addEventListener("click", () => {
+  document.getElementById("delete-all").addEventListener("click", () => {
     todos = [];
     renderTodos();
   });
-
-  // Inisialisasi bulan tanpa option default
-  (() => {
-    const months = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-    months.forEach((month, index) => {
-      const option = document.createElement("option");
-      option.value = index + 1;
-      option.text = month;
-      monthFilter.appendChild(option);
-    });
-  })();
 </script>
