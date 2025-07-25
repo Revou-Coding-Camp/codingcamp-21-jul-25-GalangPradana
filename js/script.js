@@ -7,6 +7,7 @@ const deleteAllBtn = document.getElementById('delete-all');
 const errorMessage = document.getElementById('error-message');
 const monthFilter = document.getElementById('month-filter');
 
+
 let todos = [];
 let editIndex = null;
 
