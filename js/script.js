@@ -2,19 +2,24 @@ const form = document.getElementById('form-todo');
 const todoInput = document.getElementById('todo-input');
 const todoDate = document.getElementById('todo-date');
 const todoList = document.getElementById('todo-list');
-const filterInput = document.getElementById('filter-input');
+const searchInput = document.getElementById('search-input');
 const deleteAllBtn = document.getElementById('delete-all');
 const errorMessage = document.getElementById('error-message');
+const monthFilter = document.getElementById('month-filter');
 
 let todos = [];
 let editIndex = null;
 
-function renderTodos(filter = "") {
+function renderTodos(filter = "", month = "") {
   todoList.innerHTML = "";
 
-  const filtered = todos.filter(todo =>
-    todo.task.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filtered = todos.filter(todo => {
+    const matchesText = todo.task.toLowerCase().includes(filter.toLowerCase());
+    const todoMonth = new Date(todo.date).getMonth() + 1;
+    const formattedMonth = todoMonth.toString().padStart(2, '0');
+    const matchesMonth = month === "" || month === formattedMonth;
+    return matchesText && matchesMonth;
+  });
 
   if (filtered.length === 0) {
     todoList.innerHTML = `<p class="no-task">No tasks available</p>`;
@@ -51,10 +56,9 @@ function showError(message) {
     errorMessage.classList.remove('show');
     setTimeout(() => {
       errorMessage.textContent = '';
-    }, 300); 
+    }, 300);
   }, 3000);
 }
-
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -75,7 +79,7 @@ form.addEventListener('submit', (e) => {
 
   todoInput.value = '';
   todoDate.value = '';
-  renderTodos(filterInput.value);
+  renderTodos(searchInput.value, monthFilter.value);
 });
 
 todoList.addEventListener('click', (e) => {
@@ -83,7 +87,7 @@ todoList.addEventListener('click', (e) => {
 
   if (e.target.classList.contains('delete-btn')) {
     todos.splice(index, 1);
-    renderTodos(filterInput.value);
+    renderTodos(searchInput.value, monthFilter.value);
   }
 
   if (e.target.classList.contains('edit-btn')) {
@@ -95,13 +99,18 @@ todoList.addEventListener('click', (e) => {
   }
 });
 
-filterInput.addEventListener('input', () => {
-  renderTodos(filterInput.value);
+searchInput.addEventListener('input', () => {
+  renderTodos(searchInput.value, monthFilter.value);
+});
+
+monthFilter.addEventListener('change', () => {
+  renderTodos(searchInput.value, monthFilter.value);
 });
 
 deleteAllBtn.addEventListener('click', () => {
   todos = [];
-  renderTodos();
+  renderTodos(searchInput.value, monthFilter.value);
 });
 
+// Render awal
 renderTodos();
