@@ -2,61 +2,59 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List - Galang</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo List - Galang</title>
 
-    <!-- CSS External -->
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/codingcamp-21-jul-25-GalangPradana/css/style.css" />
 
 </head>
 
 <body>
-    <main>
-       <h1 style="text-align: center;" class="judul">Todo List</h1>
+  <main>
+    <h1 style="text-align: center;" class="judul">Todo List</h1>
 
-       <form id="form-todo">
-           <input type="text" id="todo-input" placeholder="Add a todo..." required>
-           <input type="date" id="todo-date" required>
-           <button type="submit">+</button>
-         </form>
-         <p id="error-message" class="error-message"></p>
-        <p id="success-message" class="success-message"></p>
+    <form id="form-todo">
+      <input type="text" id="todo-input" placeholder="Add a todo..." required />
+      <input type="date" id="todo-date" required />
+      <button type="submit">+</button>
+    </form>
 
-        <div class="control-buttons">
-    <input type="text" id="search-input" placeholder="Search tasks..." />
-        <select id="month-filter">
-            <option value="" >Filter by month</option>
-            <option value="01">Januari</option>
-            <option value="02">Februari</option>
-            <option value="03">Maret</option>
-            <option value="04">April</option>
-            <option value="05">Mei</option>
-            <option value="06">Juni</option>
-            <option value="07">Juli</option>
-            <option value="08">Agustus</option>
-            <option value="09">September</option>
-            <option value="10">Oktober</option>
-            <option value="11">November</option>
-            <option value="12">Desember</option>
-        </select>
+    <p id="error-message" class="error-message"></p>
+    <p id="success-message" class="success-message"></p>
 
-    <button id="delete-all" class="btn-hapusall" type="button">Delete All</button>
-</div>
+    <div class="control-buttons">
+      <input type="text" id="search-input" placeholder="Search tasks..." />
+      <select id="month-filter">
+        <option value="">Filter by month</option>
+        <option value="01">Januari</option>
+        <option value="02">Februari</option>
+        <option value="03">Maret</option>
+        <option value="04">April</option>
+        <option value="05">Mei</option>
+        <option value="06">Juni</option>
+        <option value="07">Juli</option>
+        <option value="08">Agustus</option>
+        <option value="09">September</option>
+        <option value="10">Oktober</option>
+        <option value="11">November</option>
+        <option value="12">Desember</option>
+      </select>
 
+      <button id="delete-all" class="btn-hapusall" type="button">Delete All</button>
+    </div>
 
+    <header>
+      <h3 class="text-1xl font-bold">Task List</h3>
+    </header>
 
-       <header>
-                <h3 class="text-1xl font-bold ">Task List</h3>
-            </header>
+    <div id="todo-list">
+      <p>No tasks available</p>
+    </div>
+  </main>
 
-            <div id="todo-list">
-                <p>No tasks available</p>
-            </div>
-    </main>
-
-    <!-- Javascript External -->
-    <script src="js/script.js"></script>
+  <script src="/codingcamp-21-jul-25-GalangPradana/js/script.js"></script>
+  <noscript>Javascript must be enabled to use this site</noscript>
 </body>
 
 </html>
